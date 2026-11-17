@@ -1,0 +1,28 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <i class="fab fa-discord"></i> Azrail <span>Tools</span>
+    </a>
+    <div class="nav-links">
+        <a href="/tools"><i class="fas fa-list"></i> Tüm Tools</a>
+        <a href="/upload"><i class="fas fa-cloud-upload-alt"></i> Tool Yükle</a>
+        <a href="/profile"><i class="fas fa-id-card"></i> Profil</a>
+        <% if (user) { %>
+          <a href="https://discord.gg/UANfqcDAfC" target="_blank" class="btn-primary discord-nav"><i class="fab fa-discord"></i> Discord Sunucu</a>
+          <div class="nav-avatar">
+            <% if (user.avatar) { %>
+              <img src="/avatars/<%= user.avatar %>" alt="Avatar" class="nav-avatar-img">
+            <% } else { %>
+              <div class="nav-avatar default"><i class="fas fa-user"></i></div>
+            <% } %>
+            <span class="nav-username"><%= user.username %></span>
+            <a href="/logout" class="btn btn-outline btn-small nav-logout"><i class="fas fa-sign-out-alt"></i></a>
+          </div>
+        <% } else { %>
+          <a href="https://discord.gg/UANfqcDAfC" target="_blank" class="btn-outline discord-nav"><i class="fab fa-discord"></i> Discord Sunucu</a>
+          <a href="/login"><i class="fas fa-sign-in-alt"></i> Giriş</a>
+          <a href="/register" class="btn-primary"><i class="fas fa-user-plus"></i> Kayıt Ol</a>
+        <% } %>
+    </div>
+  </div>
+</nav>

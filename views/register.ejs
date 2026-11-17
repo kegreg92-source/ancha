@@ -1,0 +1,37 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<main class="container fade-in" style="max-width:420px;margin:40px auto;">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2><i class="fas fa-user-plus"></i> Kayıt Ol</h2>
+      <p>Ücretsiz hesap oluşturun ve Discord toollarını paylaşmaya başlayın.</p>
+    </div>
+
+    <form action="/register" method="POST" class="auth-form">
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> Kullanıcı Adı</label>
+        <input type="text" name="username" placeholder="Kullanıcı adı" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-envelope"></i> E-Posta</label>
+        <input type="email" name="email" placeholder="E-posta adresiniz" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-lock"></i> Şifre</label>
+        <input type="password" name="password" placeholder="Şifre (en az 6 karakter)" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-lock"></i> Şifre Tekrar</label>
+        <input type="password" name="password2" placeholder="Şifreyi tekrar girin" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block btn-large"><i class="fas fa-user-plus"></i> Kayıt Ol</button>
+    </form>
+
+    <div class="auth-footer">
+      Zaten hesabınız var mı? <a href="/login">Giriş yapın</a>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

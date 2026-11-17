@@ -1,0 +1,53 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<main class="container fade-in">
+  <div class="page-header">
+    <h1><i class="fas fa-user"></i> Profilim / Panelim</h1>
+    <p>Hoş geldiniz, <strong><%= user.username %></strong>. İşte sizin paylaştığınız tool'lar:</p>
+    <a href="/upload" class="btn btn-primary"><i class="fas fa-cloud-upload-alt"></i> Yeni Tool Paylaş</a>
+    <a href="/logout" class="btn btn-outline"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+  </div>
+
+  <% if (tools && tools.length) { %>
+    <div class="tools-grid">
+      <% tools.forEach(tool => { %>
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span class="badge own"><i class="fas fa-user"></i> Sizin aracınız</span>
+            <span class="badge"><i class="fas fa-download"></i> <%= tool.downloads || 0 %> indirme</span>
+          </div>
+          <h3><%= tool.title %></h3>
+          <% if (tool.description) { %>
+            <p class="tool-desc"><%= tool.description %></p>
+          <% } %>
+          <div class="tool-meta">
+            <span class="tool-owner">
+              <% if (user.avatar) { %>
+                <img src="/avatars/<%= user.avatar %>" class="avatar-sm" alt="">
+              <% } else { %>
+                <div class="avatar-sm default"><i class="fas fa-user"></i></div>
+              <% } %>
+              <%= user.username %>
+            </span>
+            <span><i class="fas fa-calendar"></i> <%= new Date(tool.created_at).toLocaleDateString('tr-TR') %></span>
+          </div>
+          <div class="tool-actions">
+            <a href="/download/<%= tool.id %>" class="btn btn-outline btn-small"><i class="fas fa-download"></i> İndir</a>
+            <form action="/tools/<%= tool.id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Bu aracı silmek istediğinize emin misiniz?')">
+              <button type="submit" class="btn btn-danger btn-small"><i class="fas fa-trash"></i> Sil</button>
+            </form>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <div class="empty-state">
+      <i class="fas fa-inbox"></i>
+      <p>Henüz hiç tool paylaşmadınız.</p>
+      <a href="/upload" class="btn btn-primary mt-2"><i class="fas fa-cloud-upload-alt"></i> İlk Toolunuzu Paylaşın</a>
+    </div>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>

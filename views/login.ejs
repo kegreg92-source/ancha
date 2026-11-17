@@ -1,0 +1,29 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<main class="container fade-in" style="max-width:420px;margin:40px auto;">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2><i class="fas fa-sign-in-alt"></i> Giriş Yap</h2>
+      <p>Hesabınıza giriş yaparak tool paylaşabilir ve indirebilirsiniz.</p>
+    </div>
+
+    <form action="/login" method="POST" class="auth-form">
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> Kullanıcı Adı</label>
+        <input type="text" name="username" placeholder="Kullanıcı adınızı girin" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-lock"></i> Şifre</label>
+        <input type="password" name="password" placeholder="Şifrenizi girin" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block btn-large"><i class="fas fa-sign-in-alt"></i> Giriş Yap</button>
+    </form>
+
+    <div class="auth-footer">
+      Henüz hesabınız yok mu? <a href="/register">Kayıt olun</a>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,108 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<main class="container fade-in">
+  <!-- Profil Başlık Kartı -->
+  <div class="profile-hero glass shimmer">
+    <div class="avatar-container">
+      <% if (user.avatar) { %>
+        <img src="/avatars/<%= user.avatar %>" alt="Profil Fotoğrafı" class="profile-avatar">
+      <% } else { %>
+        <div class="profile-avatar default"><i class="fas fa-user"></i></div>
+      <% } %>
+      <div class="avatar-edit-btn"><i class="fas fa-camera"></i></div>
+    </div>
+
+    <div class="profile-details">
+      <h1 class="profile-name gradient-text"><%= user.username %></h1>
+      <p class="profile-email"><i class="fas fa-envelope"></i> <%= user.email %></p>
+
+      <div class="profile-stats">
+        <div class="stat-item">
+          <div class="stat-number"><%= tools.length %></div>
+          <div class="stat-text">Paylaşılan Tool</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">
+            <% let total = 0; tools.forEach(t => { total += t.downloads || 0; }); %><%= total %></div>
+          <div class="stat-text">Toplam İndirme</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><%= new Date(user.created_at).toLocaleDateString('tr-TR') %></div>
+          <div class="stat-text">Kayıt Tarihi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- İşlem Butonları -->
+  <div class="profile-actions mt-4">
+    <form action="/profile/edit" method="POST" style="display:inline;" class="inline-card">
+      <div class="form-row">
+        <input type="text" name="username" value="<%= user.username %>" placeholder="Kullanıcı Adı" required>
+        <input type="email" name="email" value="<%= user.email %>" placeholder="E-Posta" required>
+        <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-save"></i> Bilgileri Güncelle</button>
+      </div>
+    </form>
+
+    <form action="/profile/avatar" method="POST" enctype="multipart/form-data" style="display:inline;" class="inline-card">
+      <div class="form-row">
+        <input type="file" name="avatar" accept="image/*" required>
+        <button type="submit" class="btn btn-outline btn-full"><i class="fas fa-image"></i> Fotoğraf Değiştir</button>
+      </div>
+    </form>
+
+    <a href="/dashboard" class="btn btn-outline btn-full"><i class="fas fa-arrow-left"></i> Kontrol Paneli</a>
+    <a href="/logout" class="btn btn-danger btn-full"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+  </div>
+
+  <!-- Paylaşılan Tool'lar -->
+  <% if (tools && tools.length) { %>
+    <div class="profile-section">
+      <div class="section-header">
+        <h2><i class="fas fa-box"></i> Paylaştıklarım</h2>
+        <a href="/upload" class="btn btn-sm btn-primary"><i class="fas fa-cloud-upload-alt"></i> Yeni Ekle</a>
+      </div>
+      <div class="tools-grid">
+        <% tools.forEach(tool => { %>
+          <div class="tool-card floating shimmer">
+            <div class="tool-card-header">
+              <span class="badge own"><i class="fas fa-user"></i> Sizin</span>
+              <span class="badge"><i class="fas fa-download"></i> <%= tool.downloads || 0 %> indirme</span>
+            </div>
+            <h3><%= tool.title %></h3>
+            <% if (tool.description) { %>
+              <p class="tool-desc"><%= tool.description %></p>
+            <% } %>
+            <div class="tool-meta">
+              <span class="tool-owner">
+                <% if (user.avatar) { %>
+                  <img src="/avatars/<%= user.avatar %>" class="avatar-sm" alt="">
+                <% } else { %>
+                  <div class="avatar-sm default"><i class="fas fa-user"></i></div>
+                <% } %>
+                <%= user.username %>
+              </span>
+              <span><i class="fas fa-calendar"></i> <%= new Date(tool.created_at).toLocaleDateString('tr-TR') %></span>
+            </div>
+            <div class="tool-actions">
+              <a href="/download/<%= tool.id %>" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> İndir</a>
+              <form action="/tools/<%= tool.id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Bu aracı silmek istediğinize emin misiniz?')">
+                <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Sil</button>
+              </form>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="profile-section empty-profile">
+      <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+      <h3>Henüz Tool Paylaşmadınız</h3>
+      <p>İlk Discord toolunuzu yükleyerek paylaşmaya başlayabilirsiniz.</p>
+      <a href="/upload" class="btn btn-primary btn-large mt-3"><i class="fas fa-cloud-upload-alt"></i> İlk Toolunuzu Yükleyin</a>
+    </div>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>
